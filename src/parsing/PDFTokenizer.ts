@@ -403,8 +403,7 @@ export class PDFTokenizer {
    */
   private readStream(): PDFToken {
     // Skip the "stream" keyword
-    this.position += 6;
-  
+    
     // Consume any leading whitespace (PDF spec allows it)
     while (!this.isEOF() && this.isWhitespace(this.buffer[this.position])) {
       this.position++;

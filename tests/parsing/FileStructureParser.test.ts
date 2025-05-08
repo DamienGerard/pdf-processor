@@ -75,8 +75,8 @@ startxref
       
       // Assuming the value is a dictionary
       const dict = catalogObj.value as { [key: string]: any };
-      expect(dict['/Type']).toBe('/Catalog');
-      expect(dict['/Pages']).toEqual({ objectNumber: 2, generationNumber: 0 }); // Indirect reference
+      expect(dict['Type']).toBe('/Catalog');
+      expect(dict['Pages']).toEqual({ objectNumber: 2, generationNumber: 0 }); // Indirect reference
     }
   });
 
@@ -105,7 +105,7 @@ startxref
     expect(trailer).toBeTruthy();
     if (trailer) {
       expect(trailer.Size).toBe(6);
-      expect(trailer.Root).toEqual([1, 0]); // Reference to root object
+      expect(trailer.Root).toEqual({objectNumber:1, generationNumber:0}); // Reference to root object
     }
   });
 
@@ -120,7 +120,7 @@ startxref
       const pagesDict = pagesObj.value as { [key: string]: any };
       
       // Kids array should contain an indirect reference
-      const kids = pagesDict['/Kids'] as any[];
+      const kids = pagesDict['Kids'] as any[];
       expect(kids).toBeInstanceOf(Array);
       expect(kids.length).toBe(1);
       
@@ -141,14 +141,14 @@ startxref
       // It should be a stream object
       const stream = contentObj.value as { dictionary: any, data: any };
       expect(stream.dictionary).toBeTruthy();
-      expect(stream.dictionary['/Length']).toBe(44);
+      expect(stream.dictionary['Length']).toBe(44);
       
       // Check the stream content
       expect(stream.data).toBeDefined();
       const streamText = (typeof stream.data === 'string') 
         ? stream.data 
         : Buffer.from(stream.data).toString('utf-8');
-      expect(streamText).toContain('BT /F1 12 Tf (Hello, PDF!) Tj ET');
+      expect(streamText).toContain('BT /F1 12 Tf (Hello, PDF!) Tj ET\n');
     }
   });
   
@@ -159,8 +159,7 @@ startxref
 << /Type /Catalog >>
 endobj`);
     
-    const invalidParser = new FileStructureParser(invalidPDF);
-    expect(() => invalidParser.parse()).toThrow('Invalid PDF: Header not found');
+    expect(() => {const invalidParser = new FileStructureParser(invalidPDF);}).toThrow("PDF header '%PDF-' not found");
   });
 
   test('should handle incremental updates if present', () => {

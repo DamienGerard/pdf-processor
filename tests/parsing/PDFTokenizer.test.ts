@@ -93,7 +93,7 @@ describe('PDFTokenizer Tests', () => {
    * @param filePath The path of the PDF file to test.
    */
   it('should tokenize a PDF file correctly', async () => {
-    const filePath = "C:\\Users\\p128bf6\\source\\repos\\pdf-processor\\tests\\resources\\sampleFile2.pdf"; // Update with your actual PDF file path
+    const filePath = "./tests/resources/sampleFile2.pdf";
     try {
       const data = await fs.readFile(filePath);
       await testTokenizer(data, `File Path Test (${filePath})`, false);

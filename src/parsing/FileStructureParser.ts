@@ -146,6 +146,12 @@ export class FileStructureParser {
             this.parseBody();
             this.parseXRefAndTrailer();
         }while((this.currentTokenIndex < this.tokens.length && this.tokens[this.currentTokenIndex].type !== TokenType.EOF));
+
+        // Look for EOF marker
+        var token = this.nextToken();
+        if (!token || token.type !== TokenType.EOF) {
+            throw new Error('Expected EOF marker');
+        }
     }
 
     /**
@@ -473,12 +479,6 @@ export class FileStructureParser {
         // We're not using this value right now, but we would if we were supporting
         // incremental updates or linearized PDFs
         const startxref = token.value;
-        
-        // Look for EOF marker
-        token = this.nextToken();
-        if (!token || token.type !== TokenType.EOF) {
-            throw new Error('Expected EOF marker');
-        }
     }
 
     /**
