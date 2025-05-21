@@ -1,5 +1,5 @@
 import { PDFToken, PDFTokenizer, TokenType } from '../../src/parsing/PDFTokenizer';
-import { FileStructureParser, XRefTable, TrailerDictionary } from '../../src/parsing/FileStructureParser';
+import { FileStructureParser, XRefTable, TrailerDictionary, PDFDictionary, PDFIndirectReference } from '../../src/parsing/FileStructureParser';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -74,9 +74,9 @@ startxref
       expect(catalogObj.generationNumber).toBe(0);
       
       // Assuming the value is a dictionary
-      const dict = catalogObj.value as { [key: string]: any };
-      expect(dict['Type']).toBe('/Catalog');
-      expect(dict['Pages']).toEqual({ objectNumber: 2, generationNumber: 0 }); // Indirect reference
+      const dict = catalogObj.value as PDFDictionary;
+      expect(dict.get('Type')).toBe('/Catalog');
+      expect(dict.get('Pages')).toEqual({ objectNumber: 2, generationNumber: 0 }); // Indirect reference
     }
   });
 
@@ -117,10 +117,10 @@ startxref
     expect(pagesObj).toBeTruthy();
     
     if (pagesObj) {
-      const pagesDict = pagesObj.value as { [key: string]: any };
+      const pagesDict = pagesObj.value as PDFDictionary;
       
       // Kids array should contain an indirect reference
-      const kids = pagesDict['Kids'] as any[];
+      const kids = pagesDict.get('Kids') as any[];
       expect(kids).toBeInstanceOf(Array);
       expect(kids.length).toBe(1);
       
@@ -139,9 +139,9 @@ startxref
     
     if (contentObj) {
       // It should be a stream object
-      const stream = contentObj.value as { dictionary: any, data: any };
+      const stream = contentObj.value as { dictionary: PDFDictionary, data: any };
       expect(stream.dictionary).toBeTruthy();
-      expect(stream.dictionary['Length']).toBe(44);
+      expect(stream.dictionary.get('Length')).toBe(44);
       
       // Check the stream content
       expect(stream.data).toBeDefined();

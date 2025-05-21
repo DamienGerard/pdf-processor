@@ -1,7 +1,7 @@
 import { assert } from 'console';
 import { PDFToken, PDFTokenizer, TokenType } from './PDFTokenizer';
 
-type PDFObject = 
+export type PDFObject = 
   | number 
   | boolean 
   | string 
@@ -12,24 +12,22 @@ type PDFObject =
   | PDFStream 
   | PDFIndirectReference;
 
-interface PDFArray extends Array<PDFObject> {}
+export interface PDFArray extends Array<PDFObject> {}
 
-interface PDFDictionary {
-  [key: string]: PDFObject;
-}
+export interface PDFDictionary extends Map<string, PDFObject> { }
 
-interface PDFIndirectObject {
+export interface PDFIndirectObject {
   objectNumber: number;
   generationNumber: number;
   value: PDFObject;
 }
 
-interface PDFStream {
+export interface PDFStream {
   dictionary: PDFDictionary;
   data: Uint8Array | string;
 }
 
-interface PDFIndirectReference {
+export interface PDFIndirectReference {
   objectNumber: number;
   generationNumber: number;
 }
@@ -55,8 +53,8 @@ export interface XRefTable {
  */
 export interface TrailerDictionary {
     Size: number;
-    Root: [number, number]; // [objectId, generationNumber]
-    Info?: [number, number];
+    Root: PDFIndirectReference; // [objectId, generationNumber]
+    Info?: PDFIndirectReference;
     ID?: string[];
     Encrypt?: any;
     Prev?: number;
@@ -297,7 +295,7 @@ export class FileStructureParser {
         // Skip the dictionary start token
         this.currentTokenIndex++;
         
-        const dictionary: PDFDictionary = {};
+        const dictionary: PDFDictionary = new Map<string, PDFObject>();
         
         while (this.currentTokenIndex < this.tokens.length && this.tokens[this.currentTokenIndex].type !== TokenType.DICT_END) {
             // Dictionary keys must be name objects
@@ -306,12 +304,12 @@ export class FileStructureParser {
                 continue;
             }
             
-            const key = this.tokens[this.currentTokenIndex].value;
+            const key: string = this.tokens[this.currentTokenIndex].value;
             this.currentTokenIndex++;
             
             if (this.currentTokenIndex < this.tokens.length) {
                 const value = this.parseNextObject();
-                dictionary[key] = value;
+                dictionary.set(key, value);
             }
         }
         
@@ -462,7 +460,22 @@ export class FileStructureParser {
         }
         
         this.backToken(); // Put back the '<<' token for parseDictionary to consume
-        this.trailer = this.parseDictionary() as TrailerDictionary;
+        let parsedDictionary = this.parseDictionary() as PDFDictionary;
+        let size = parsedDictionary.get("Size") as number;
+        let root = parsedDictionary.get("Root") as PDFIndirectReference;
+        let info = parsedDictionary.get("Info") as PDFIndirectReference;
+        let id = parsedDictionary.get("ID") as PDFArray;
+        let encrypt =  parsedDictionary.get("Encrypt");
+        let prev = parsedDictionary.get("Prev") as number;
+        this.trailer = {
+            Size: size,
+            Root: root,
+            Info: info? info : undefined,
+            ID: id,
+            Encrypt: encrypt,
+            Prev: prev,
+            parsedDictionary
+        }as TrailerDictionary;
         
         // Look for startxref
         token = this.nextToken();
@@ -520,7 +533,7 @@ export class FileStructureParser {
     /**
      * Get the root catalog object ID
      */
-    public getRootObjectId(): [number, number] | null {
+    public getRootObjectId(): PDFIndirectReference | null {
         return this.trailer?.Root || null;
     }
 }
