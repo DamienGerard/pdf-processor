@@ -2,7 +2,7 @@
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/your-username/pdf-parser-ts)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/DamienGerard/pdf-processor)
 
 A comprehensive, enterprise-grade TypeScript library for **parsing, editing, rendering, and processing** PDF files. Built **from scratch** with advanced features including content manipulation, security handling, form processing, and complete PDF editing capabilities, following the [ISO 32000-1:2008 PDF specification](https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdfs/PDF32000_2008.pdf).
 
