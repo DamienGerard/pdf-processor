@@ -265,7 +265,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Damien Gerard**
 - GitHub: [@DamienGerard](https://github.com/DamienGerard)
 - Email: denis.damien.gerard@gmail.com
-- LinkedIn: [Damien Gerard]((https://www.linkedin.com/in/damien-g-a468b8109/))
+- LinkedIn: [Damien Gerard](https://www.linkedin.com/in/damien-g-a468b8109/)
 
 ---
 
