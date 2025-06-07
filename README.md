@@ -184,7 +184,7 @@ graph TD
     B --> C[PDFObjectResolver]
     C --> D[DocumentStructureParser]
     D --> E[PDFDocument]
-    E --> F[ PDFPage[] ]
+    E --> F["PDFPage[]"]
     F --> G[ContentStreamParser]
     G --> H[GraphicsEngine]
 ```
