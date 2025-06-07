@@ -1,5 +1,5 @@
 import { PDFObjectResolver } from '../../src/parsing/PDFObjectResolver';
-import { PDFArray, PDFDictionary, PDFIndirectObject, PDFIndirectReference, PDFStream } from '../../src/parsing/FileStructureParser';
+import { PDFArray, PDFDictionary, PDFIndirectObject, PDFIndirectReference, PDFStream } from '../../src/types/PDFTypes';
 
 describe('PDFObjectResolver', () => {
   // Setup test objects for all tests

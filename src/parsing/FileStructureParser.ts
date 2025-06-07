@@ -1,36 +1,7 @@
 import { assert } from 'console';
 import { PDFToken, PDFTokenizer, TokenType } from './PDFTokenizer';
+import { PDFArray, PDFDictionary, PDFIndirectObject, PDFIndirectReference, PDFObject, PDFStream } from '../types/PDFTypes';
 
-export type PDFObject = 
-  | number 
-  | boolean 
-  | string 
-  | null 
-  | PDFArray 
-  | PDFDictionary 
-  | PDFIndirectObject 
-  | PDFStream 
-  | PDFIndirectReference;
-
-export interface PDFArray extends Array<PDFObject> {}
-
-export interface PDFDictionary extends Map<string, PDFObject> { }
-
-export interface PDFIndirectObject {
-  objectNumber: number;
-  generationNumber: number;
-  value: PDFObject;
-}
-
-export interface PDFStream {
-  dictionary: PDFDictionary;
-  data: Uint8Array | string;
-}
-
-export interface PDFIndirectReference {
-  objectNumber: number;
-  generationNumber: number;
-}
 
 /**
  * Represents a cross-reference entry in the PDF file

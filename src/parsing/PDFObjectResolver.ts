@@ -1,4 +1,4 @@
-import {PDFDictionary, PDFIndirectObject, PDFIndirectReference, PDFObject} from './FileStructureParser';
+import {PDFDictionary, PDFIndirectObject, PDFIndirectReference, PDFObject} from '../types/PDFTypes';
 
 export class PDFObjectResolver{
     private indirectObjectsMap: Map<string, PDFIndirectObject>; // key: "objectId generationNumber"

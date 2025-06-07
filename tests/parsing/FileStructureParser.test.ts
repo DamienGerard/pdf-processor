@@ -1,5 +1,6 @@
 import { PDFToken, PDFTokenizer, TokenType } from '../../src/parsing/PDFTokenizer';
-import { FileStructureParser, XRefTable, TrailerDictionary, PDFDictionary, PDFIndirectReference } from '../../src/parsing/FileStructureParser';
+import { FileStructureParser, XRefTable, TrailerDictionary } from '../../src/parsing/FileStructureParser';
+import {  PDFDictionary, PDFIndirectReference } from '../../src/types/PDFTypes';
 import * as fs from 'fs';
 import * as path from 'path';
 
