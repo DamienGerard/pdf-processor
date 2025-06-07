@@ -53,12 +53,12 @@ export class PDFPage {
     this.artBox = this.resolveBox(dict, 'ArtBox', resolver);
     
     // Parse other properties
+    this.parent = dict.get('Parent') as PDFIndirectReference;
     this.resources = this.resolveResources(dict, resolver);
     this.contents = dict.get('Contents') as PDFIndirectReference | PDFIndirectReference[];
     this.annots = dict.get('Annots') as PDFIndirectReference[];
     this.rotate = (dict.get('Rotate') as number) || 0;
     this.userUnit = (dict.get('UserUnit') as number) || 1.0;
-    this.parent = dict.get('Parent') as PDFIndirectReference;
     
     this.streamParser = new ContentStreamParser(resolver, securityHandler);
     this.graphicsEngine = new GraphicsEngine();
