@@ -260,8 +260,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 👨‍💻 Author
+## 📬 Contact
 
+Feel free to reach out:
 **Damien Gerard**
 - GitHub: [@DamienGerard](https://github.com/DamienGerard)
 - Email: denis.damien.gerard@gmail.com
